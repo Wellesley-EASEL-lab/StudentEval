@@ -1,6 +1,6 @@
 # The StudentEval Dataset
 
-1. The dataset is available at [FILL].
+1. The dataset is currently embargoed.
 
 2. `dataset.ipynb` has the basic analysis that we perform in this section.
 
