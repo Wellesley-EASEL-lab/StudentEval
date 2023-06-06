@@ -1,0 +1,1325 @@
+add_up:
+  tests:
+    - input: |
+        [ [ 'one', 2, 3, 4 ] ]
+      output: |
+        9
+    - input: |
+        [ [ 3, 'hello', 3.4 ] ]
+      output: |
+        6.4
+    - input: |
+        [ [ ] ]
+      output: |
+        0
+  working_description: |
+    Add up all the elements in 2D array only if they are integer or float
+  signature: 'def add_up(arr):'
+  code: |
+    def add_up(n):
+        total = 0
+        for row in n:
+            for elem in row:
+                if type(elem) == int or type(elem) == float:
+                    total += elem
+        return total
+subtract_add:
+  tests:
+    - input: |
+        ['1', '2', '3', '4']
+      output: |
+        -2
+    - input: |
+        ['0', '2']
+      output: |
+        -2
+    - input: |
+        ['0', '0']
+      output: |
+        0
+    - input: |
+        [ ]
+      output: |
+        0
+  working_description: |
+    Given a list of strings, convert to a list of integers. Return a result
+    that adds the even indices and subtracts the odd indices.
+  signature: 'def subtract_add(lst):'
+  code: |
+    def subtract_add(lst):
+      total = 0
+      for i in range(len(lst)):
+          if i % 2 == 0:
+              total = total + int(lst[i])
+          else:
+              total = total - int(lst[i])
+      return total
+convert:
+  tests:
+    - input: |
+        [0, 1, 2, 3]
+      output: |
+        ['ABCD']
+    - input: |
+        [0, -1, 1, -1, 2]
+      output: |
+        ['A', 'B', 'C']
+    - input: |
+        [1, 1, 1, -1, 25, 25, 25, -1, 0, 1, 2]
+      output: |
+        ['BBB', 'ZZZ', 'ABC']
+  working_description: |
+    lst is a list of numbers, where 0 -> A, 1 -> B, ..., and Z -> 25. Moreover,
+    -1 -> ' '. Build a string, then return a list of strings by splitting on
+    ' '.
+  signature: 'def convert(lst):'
+  code: |
+    def convert(lst):
+        return ''.join([chr(i+65) if i >= 0 else " " for i in lst]).split()
+order_strings:
+  tests:
+    - input: |
+        ['c', 'b', 'a', 'd']
+      output: |
+        ['b', 'a', 'd', 'c']
+    - input: |
+        [1, 2, 3, 4, 5, 6]
+      output: |
+        [3, 2, 1, 6, 5, 4]
+    - input: |
+        ['hello', 'aaa', 'bbb', 'ccc']
+      output: |
+        ['bbb', 'aaa', 'hello', 'ccc']
+  working_description: Sort lst then reverse the first and second halves
+  signature: 'def order_strings(lst):'
+  code: |
+    def order_strings(lst):
+      lst.sort()
+      lst[0:len(lst)//2] = lst[0:len(lst)//2][::-1]
+      lst[len(lst)//2:] = lst[len(lst)//2:][::-1]
+      return lst
+add_int:
+  tests:
+    - input: |
+        ['hello', 'aaa', 'bbb', 'ccc', 1, 4], 5
+      output: |
+        ['hello5', 'aaa5', 'bbb5', 'ccc5', 6, 9]
+    - input: |
+        [8, 56, 8, '5', '4'], 1
+      output: |
+        [9, 57, 9, '51', '41']
+    - input: |
+        ['hello', 'aaa', 'bbb', ['list'], 1, 4], 5
+      output: |
+        ['hello5', 'aaa5', 'bbb5', ['list'], 6, 9]
+  working_description: |
+    Given a list lst of strings and integers and integer num, concatenates num to the end of strings in lst and adds it to integers in lst.
+  signature: 'def add_int(lst, num):'
+  code: |
+    def add_int(lst, extra):
+        new_lst = []
+        for item in lst:
+            if isinstance(item, int) or isinstance(item, float):
+                new_lst.append(item + extra)
+            elif isinstance(item, str):
+                new_lst.append(item + str(extra))
+            else:
+                new_lst.append(item)
+        return new_lst
+check_prime:
+  tests:
+    - input: |
+        '2'
+      output: |
+        True
+    - input: |
+        '8'
+      output: |
+        False
+    - input: |
+        '9'
+      output: |
+        False
+    - input: |
+        '11'
+      output: |
+        True
+  working_description: |
+    Convert string argument to an int, then return True if it is prime.
+  signature: 'def check_prime(num):'
+  code: |
+    def check_prime(num):
+        num = int(num)
+        if num == 2:
+            return True
+        if num % 2 == 0:
+            return False
+        for i in range(3, int(num**0.5)+1, 2):
+            if num % i == 0:
+                return False
+        return True
+remove_odd:
+  tests:
+    - input: |
+        [4.3, 4, 5, 2, 7]
+      output: |
+        [4.3, 4, 2]
+    - input: |
+        [1.1, 2.2, 3.3]
+      output: |
+        [1.1, 2.2, 3.3]
+    - input: |
+        [3, 5, 7]
+      output: |
+        []
+  working_description: 'remove all elements that are int and odd from given list'
+  signature: 'def remove_odd(lst):'
+  code: |
+    def remove_odd(lst):
+        return [x for x in lst if x % 2 != 1]
+create_list:
+  tests:
+    - input: |
+        {'a': 'b', 't': 'd'}, ['a', 't', 'c']
+      output: |
+        ['b', 'd', None]
+    - input: |
+        {1: 'a', 2: 'b', 3: 'c'}, [1, 5, 3]
+      output: |
+        ['a', None, 'c']
+    - input: |
+        {3 : 't', 4: 'r', 5: 'e'}, ['a', 'b', 'c']
+      output: |
+        [None, None, None]
+  working_description: |
+    Given a dict dt and list lst, iterates through lst and appends values in dt to the result. If value is not a key in dt, appends None.
+  signature: 'def create_list(dt, lst):'
+  code: |
+    def create_list(d, l):
+      return_lst = []
+      for i in l:
+        if i in d:
+          return_lst.append(d[i])
+        else:
+          return_lst.append(None)
+      return return_lst
+has_qu:
+  working_description: A function that receives a list of letters and and returns True if the list contains Q or U
+  signature: 'def has_qu(lst):'
+  tests:
+    - input: |
+        ["A", "B", "C"]
+      output: |
+        False
+    - input: |
+        ["A", "Q", "C"]
+      output: |
+        True
+    - input: |
+        ["A", "U", "C"]
+      output: |
+        True
+    - input: |
+        ["Q", "U"]
+      output: |
+        True
+  code: |
+    def has_qu(letters):
+      if "Q" in letters or "U" in letters:
+        return True
+      return False
+planets_mass:
+  working_description: Given a dictionary of planets and their mass, remove keys 'Pluto' and 'Sun' if they are in planets and return the sum of the planets' masses.
+  signature: |
+    def planets_mass(planets):
+  tests:
+    - input: |
+        {'Venus': 10, 'Mercury': 5, 'Sun': 100}
+      output: |
+        15
+    - input: |
+        {'Pluto': 30, 'Venus': 10, 'Mercury': 5, 'Sun': 100}
+      output: |
+        15
+    - input: |
+        {'Pluto': 100}
+      output: |
+        0
+  code: |
+    def planets_mass(solar_system):
+      return sum(mass for planet, mass in solar_system.items() if planet !='Pluto' and planet !='Sun')
+student_grades:
+  working_description: |
+    Given a dictionary students mapping names to id numbers and a dictionary grades mapping id numbers to lists of grades, returns a dictionary mapping names to grades using matching id numbers.
+  signature: |
+    def student_grades(students, grades):
+  code: |
+    def student_grades(students, grades):
+      name_dict = {}
+      for k,v in students.items():
+        name_dict[k] = grades[v]
+      return name_dict
+  tests:
+    - input: |
+        {'Alice': 20, 'Bob': 11}, {20: ['A','A'], 11: ['A','B'], 21: ['B']}
+      output: |
+        {'Alice': ['A','A'], 'Bob': ['A','B']}
+    - input: |
+        {'Alice': 20}, {20: [], 11: ['A','B'], 21: ['A-']}
+      output: |
+        {'Alice': []}
+    - input: |
+        {'Sam': 21, 'Ari': 67, 'Chris': 23}, {67: [], 23: ['A'], 21: ['B','B']}
+      output: |
+        {'Sam': ['B', 'B'], 'Ari':[], 'Chris':['A'] }
+times_with:
+  working_description: |
+    Given a list of meetings, where each meeting is a list containing a duration and a list of attendees,
+    return the time with each person as a dictionary.
+  signature: |
+    def times_with(meetings):
+  code: |
+    def times_with(meetings):
+        time_with = {}
+        for meeting in meetings:
+            for attendee in meeting[1]:
+                if attendee not in time_with:
+                    time_with[attendee] = 0
+                time_with[attendee] += meeting[0]
+        return time_with
+  tests:
+    - input: |
+        [ [30, ['Alice', 'Bob', 'Carol']] ]
+      output: |
+        { 'Alice': 30, 'Bob': 30, 'Carol': 30 }
+    - input: |
+        [ [30, ['Alice', 'Bob', 'Carol']], [20, ['Alice', 'Bob']] ]
+      output: |
+        { 'Alice': 50, 'Bob': 50, 'Carol': 30 }
+    - input: |
+        [ [10, ['Alice', 'Bob']], [5, ['Carol']] ]
+      output: |
+        {'Alice': 10, 'Bob': 10, 'Carol': 5}
+meeps_morps:
+  working_description: |
+    Returns a list where the first index is the number of times 'Meep' appears in the list, and the second index is the number of times 'Morp' appears in the list.
+  signature: |
+    def meeps_morps(items):
+  code: |
+    def meeps_morps(items):
+      meeps = 0
+      morps = 0
+      for word in items:
+        if word == 'Meep':
+          meeps += 1
+        if word == 'Morp':
+          morps += 1
+      return [meeps, morps]
+  tests:
+    - input: |
+        ['Meep', 'Morp', 'Meep', 'Meep', 'Suitcase', 'Kind', 'Morp']
+      output: |
+        [3,2]
+    - input: |
+        ['Meep', 'Meep', 'Suitcase', 'Kind']
+      output: |
+        [2,0]
+    - input: |
+        ['Suitcase', 'Kind', 'Carrot', 'Meat', 'Morpling']
+      output: |
+        [0,0]
+print_time:
+  code: |
+    def print_time(day,hour):
+      if day in 'Sat Sun':
+        return 'weekend'
+      if(0 <= hour <= 8):
+        return 'sleeping'
+      else:
+        return 'weekday'
+  signature: |
+    def print_time(day,hour):
+  working_description: |
+    Given a weekday and time, returns a string:
+    1. 'weekend' for 'Sat' or 'Sun'
+    2. 'weekday' for times between 9 and 23 inclusive
+    3. 'sleeping' otherwise
+  tests:
+    - input: |
+        'Sat', 12
+      output: |
+        'weekend'
+    - input: |
+        'Sun', 12
+      output: |
+        'weekend'
+    - input: |
+        'Mon', 9
+      output: |
+        'weekday'
+    - input: |
+        'Tue', 23
+      output: |
+        'weekday'
+    - input: |
+        'Wed', 0
+      output: |
+        'sleeping'
+    - input: |
+        'Thu', 8
+      output: |
+        'sleeping'
+mod_end:
+  working_description: |
+    Takes two parameters: 1) a list of words, and 2) a word ending, and returns a new list replacing the old ending with 's'.
+  signature: |
+    def mod_end(words, ending):
+  code: |
+    def mod_end(words, ending):
+      result = []
+      for word in words:
+          result.append('s'.join(word.rsplit(ending,1)))
+      return result
+  tests:
+    - input: |
+        ['jumping', 'bumping', 'singing', 'picking'], 'ing'
+      output: |
+        ['jumps', 'bumps', 'sings', 'picks']
+    - input: |
+        ['dreaded', 'edited', 'heated'], 'ed'
+      output: |
+        ['dreads', 'edits', 'heats']
+    - input: |
+        ['nearer', 'closer'], 'er'
+      output: |
+        ['nears', 'closs']
+increaseScore:
+  working_description: |
+    For values less than 10, returns 10. Otherwise, return score + 1.
+  signature: |
+    def increaseScore(score):
+  code: |
+    def increaseScore(score):
+      if score < 10:
+        score = 10
+      else:
+        score += 1
+      return score
+  tests:
+    - input: |
+        -10
+      output: |
+        10
+    - input: |
+        1
+      output: |
+        10
+    - input: |
+        10
+      output: |
+        11
+    - input: |
+        15
+      output: |
+        16
+    - input: |
+        20
+      output: |
+        21
+getSeason:
+  working_description: |
+    Takes in a string argument, month, and returns the season that the month is in.
+    December to February are winter, March to May are spring, and so on. The
+    returned season should be in lowercase.
+  signature: |
+    def getSeason(month):
+  code: |
+    def getSeason(month):
+      if month in 'December January February':
+        return 'winter'
+      elif month in 'March April May':
+        return 'spring'
+      elif month in 'June July August':
+        return 'summer'
+      else:
+        return 'fall'
+  tests:
+    - input: |
+        'January'
+      output: |
+        'winter'
+    - input: |
+        'April'
+      output: |
+        'spring'
+    - input: |
+        'August'
+      output: |
+        'summer'
+    - input: |
+        'October'
+      output: |
+        'fall'
+assessVowels:
+  working_description: |
+    Takes string as a parameter. The function should then create a list, and add all uppercase or lowercase vowels that appear in the string to the list (the vowels can repeat in the list). It should then return the list.
+  signature: |
+    def assessVowels(s):
+  code: |
+    def assessVowels(s):
+      result = []
+      for letter in s:
+        if letter in 'AEIOUaeiou':
+            result.append(letter)
+      return result
+  tests:
+    - input: |
+        'I ate an apple'
+      output: |
+        ['I', 'a', 'e', 'a', 'a', 'e']
+    - input: |
+        'Another string here'
+      output: |
+        ['A', 'o', 'e', 'i', 'e', 'e']
+    - input: |
+        'cAbbAge'
+      output: |
+        ['A', 'A', 'e']
+    - input: |
+        ''
+      output: |
+        []
+hasHorizontalWin:
+  working_description: |
+    Returns True if one of the rows in board has five of letter.
+  signature: |
+    def hasHorizontalWin(board, letter):
+  code: |
+    def hasHorizontalWin(board, letter):
+      current = False
+      for row in board:
+        count = 0
+        for i in row: 
+          if i == letter:
+            count += 1
+          else:
+            count = 0
+          if count == 5:
+            return True
+      return False
+  tests:
+    - input: |
+        [['', '',  'X', 'O', 'X'],
+        ['X', 'X', 'X', 'X', 'X'],
+        ['X', 'O', 'X', 'O', 'O'],
+        ['',  '',  '',  'X', 'O'],
+        ['',  '',  '',  '',  'O']],
+        'X'
+      output: |
+        True
+    - input: |
+        [['', '',  'X', 'O', 'X'],
+        ['X', 'X', 'X', 'X', 'O'],
+        ['X', 'X', 'X', 'O', 'O'],
+        ['',  '',  '',  'X', 'O'],
+        ['',  '',  '',  '',  'O']],
+        'X'
+      output: |
+        False
+    - input: |
+        [['', '',  'X', 'O', 'X'],
+        ['X', 'X', 'O', 'X', 'O'],
+        ['X', 'O', 'X', 'O', 'O'],
+        ['',  '',  '',  'X', 'O'],
+        ['',  '',  '',  '',  'O']],
+        'X'
+      output: |
+        False
+readingIceCream:
+  working_description: |
+    Write a function called readingIceCream to read in a TSV files containing 
+    information about Trulys ice cream flavors. The first field is the flavor
+    name, the second field is the ice cream type, and the third field records 
+    how many servings the store has left (a float). Your function should take a
+    list of strings representing rows from a 3-field tsv file. It should the
+    total number of servings of ice cream that Trulys currently has in stock.
+  signature: |
+    def readingIceCream(lines):
+  code: |
+    def readingIceCream(lines):
+      data = [line.split('\t') for line in lines]
+      servings = [float(line[2]) for line in data]
+      return sum(servings)
+  tests:
+    - input: |
+        ["peppermint\tice cream\t3",
+        "lemon\tfrozen yogurt\t10",
+        "pumpkin\tice cream\t2.5",
+        "monster\tice cream\t21"]
+      output: |
+        36.5
+    - input: |
+        ["salty\tfrozen yogurt\t10"]
+      output: |
+        10
+    - input: |
+        ["salty\tfrozen yogurt\t0"]
+      output: |
+        0
+findHorizontals:
+  working_description: |
+    Given a list puzzle of rows, and a list wordList of words, returns a dictionary where the keys are found words (backwards and forwards) and the values are the row in puzzle where they're found.
+  signature: |
+    def findHorizontals(puzzle,wordList):
+  code: |
+    def findHorizontals(puzzle,wordList):
+      found = {}
+      for word in wordList:
+        for i,line in enumerate(puzzle):
+          if word in line or word[::-1] in line:
+            found[word] = i
+      return found
+  tests:
+    - input: |
+        ["ztac","zzzz","teaz","part","zzzz"],
+        ["cat","dog","tea","party"]
+      output: |
+        {"cat":0, "tea":2}
+    - input: |
+        ["ztac","zzzz","teaz","part","zzzz"],
+        ["to","apple","ape","party"]
+      output: |
+        {}
+    - input: |
+        ["as", "be", "sa", "it"],
+        ["it"]
+      output: |
+        {'it': 3}
+partialWordle:
+  working_description: |
+    Returns a list of scores. For each guess in guessList, add one point for letters that appear in hiddenWord, and two points for letters in the same index as hiddenWord.
+  signature: |
+    def partialWordle(guessList,hiddenWord):
+  code: |
+    def partialWordle(guessList,hiddenWord):
+      scores = []
+      for guess in guessList:
+        score = 0
+        for i,l in enumerate(guess):
+          if l in hiddenWord:
+            score += 1
+          if hiddenWord[i] == l:
+            score += 1
+        scores.append(score)
+      return scores
+  tests:
+    - input: |
+        ["zzzz","bbbb","lyre","part","apes"],
+        'pare'
+      output: |
+        [0,0,4,6,3]
+    - input: |
+        ["aaaa","wall","woah","deal","howl"],
+        "word"
+      output: |
+        [0,2,4,1,3]
+    - input: |
+        ["real","hill","ream","meal","curl"],
+        "roll"
+      output: |
+        [4,4,2,2,3]
+andCount:
+  working_description: |
+    Returns the number of '&' in andGrid
+  signature: |
+    def andCount(andGrid):
+  code: |
+    def andCount(andGrid):
+      count = 0
+      for row in andGrid:
+        for letter in row:
+          if letter == '&':
+            count += 1
+      return count
+  tests:
+    - input: |
+        ['--&-','----','-&--','---&',]
+      output: |
+        3
+    - input: |
+        ['&&&-','-----','--&&&','-----',]
+      output: |
+        6
+    - input: |
+        ['----', '----', '----', '----']
+      output: |
+        0
+set_chars:
+  working_description:
+    Write a function set_chars that returns a string where all the
+    indices in list l in string s are set to character c.
+  signature: |
+    def set_chars(s,c,l):
+  code: |
+    def set_chars(s,c,l):
+      for i in l:
+        if i < len(s):
+            s = s[:i] + c + s[i+1:]
+      return s
+  tests:
+    - input: |
+        'Everybody loves apples.', "u", [0,2,6,16]
+      output: |
+        'uvurybudy loves upples.'
+    - input: |
+        'ice cream is the best', 'q', [1,21]
+      output: |
+        'iqe cream is the best'
+    - input: |
+        'toast and jam and toast and ham', 't', []
+      output: |
+        'toast and jam and toast and ham'
+altText:
+  working_description: Makes every other letter in s uppercase
+  signature: |
+    def altText(s):
+  code: |
+    def altText(s):
+      result = ''
+      for i in range(len(s)):
+        if i%2 == 0:
+            result += s[i].upper()
+        else:
+            result += s[i]
+      return result
+  tests:
+    - input: |
+        'I love to see dolphins swim.'
+      output: |
+        'I LoVe tO SeE DoLpHiNs sWiM.'
+    - input: |
+        'computers'
+      output: |
+        'CoMpUtErS'
+    - input: |
+        't'
+      output: |
+        'T'
+changeSection:
+  working_description: |
+    Write a function that reverses everything in the string s up to (but not including) index i.
+  signature: |
+    def changeSection(s,i):
+  code: |
+    def changeSection(s,i):
+      flipped = s[i-1::-1]
+      return flipped + s[i:]
+  tests:
+    - input: |
+        'Turn towards the door.', 9
+      output: |
+        'awot nruTrds the door.'
+    - input: |
+        'the tall sail', 13
+      output: |
+        'lias llat eht'
+    - input: |
+        'establishing', 1
+      output: |
+        'establishing'
+edit_col:
+  working_description: For every list in mat, sets index i to n. Returns mat.
+  signature: |
+    def edit_col(mat,i,n):
+  code: |
+    def edit_col(mat,i,n):
+      for row in mat:
+        row[i] = n
+      return mat
+  tests:
+    - input: |
+        [[1,2,3], [4,5,6], [7,8,9]], 1, 6
+      output: |
+        [[1,6,3], [4,6,6], [7,6,9]]
+    - input: |
+        [[1,1,1,1,1], [1,1,1,1,1]], 0, 9
+      output: |
+        [[9,1,1,1,1], [9,1,1,1,1]]
+    - input: |
+        [[2,3]], 1, 1
+      output: |
+        [[2,1]]
+combine:
+  working_description: Given a 2d array, joins corresponding nested lists.
+  signature: |
+    def combine(l1,l2):
+  code: |
+    def combine(l1,l2):
+      result = []
+      for i in range(len(l1)):
+        result.append(l1[i] + (l2[i]))
+      return result
+  tests:
+    - input: |
+        [[1,2,3],[4,5,6],[7,8,9]],[[10,20,30],[40,50,60],[70,80,90]]
+      output: |
+        [[1,2,3,10,20,30],[4,5,6,40,50,60],[7,8,9,70,80,90]]
+    - input: |
+        [[9,8,7]], [[0,1,2]]
+      output: |
+        [[9,8,7,0,1,2]]
+    - input: |
+        [[2,3],[1,1],[10,11],[4, 5]],[[1, 1],[14, 15],[3, 2],[77, 87]]
+      output: |
+        [[2,3,1,1],[1,1,14,15],[10,11,3,2],[4,5,77,87]]
+pattern:
+  working_description: Unknown, need to generate
+  signature: |
+    def pattern(value):
+  code: |
+    def pattern(value):
+    biglst = []
+    for i in range(value):
+        newlst = []
+        for j in range(value):
+            newlst.append(j+1)
+        biglst.append(newlst)
+    return biglst
+  tests:
+    - input: |
+        3
+      output: |
+        [[1,2,3],[1,2,3],[1,2,3]]
+    - input: |
+        4
+      output: |
+        [[1,2,3,4],[1,2,3,4],[1,2,3,4],[1,2,3,4]]
+    - input: |
+        2
+      output: |
+        [[1,2],[1,2]]
+reduce:
+  working_description: |
+    Replace '^' with '_' in val.
+  signature: |
+    def reduce(val):
+  code: |
+    def reduce(val):
+      for i in range(len(val)):
+        if val[i] == '^':
+          val = val[:i] + '_' + val[i+1:]
+      return val
+  tests:
+    - input: |
+        '^^1-1^^'
+      output: |
+        '__1-1__'
+    - input: |
+        '~^--^~'
+      output: |
+        '~_--_~'
+    - input: |
+        '|O.0|'
+      output: |
+        '|O.0|'
+fib:
+  working_description: Return True if n is in the Fibonacci sequence, False otherwise.
+  signature: |
+    def fib(n):
+  code: |
+    def fib(n):
+      a = 5 * n**2 + 4
+      b = 5 * n**2 -4
+      return round(a**0.5)**2 == a or round(b**0.5)**2 == b
+  tests:
+    - input: |
+        1
+      output: |
+        True
+    - input: |
+        13
+      output: |
+        True
+    - input: |
+        21
+      output: |
+        True
+    - input: |
+        19
+      output: |
+        False
+add_word:
+  working_description: If word is in map, appends line_number to its value. If word is not in map, adds word as a key and line_number as its value. Returns map.
+  signature: |
+    def add_word(word, line_number, map):
+  code: |
+    def add_word(word, line_number, map):
+      if word not in map:
+        map[word] = [line_number]
+      else:
+        map[word].append(line_number)
+      return map
+  tests:
+    - input: |
+        'bright', 1, {'twas': [1]}
+      output: |
+        {'twas': [1], 'bright': [1]}
+    - input: |
+        'five', 5, {'one': [1], 'three': [3, 3, 3, 5], 'five': [3, 5, 5, 5, 5]}
+      output: |
+        {'one': [1], 'three': [3, 3, 3, 5], 'five': [3, 5, 5, 5, 5, 5]}
+    - input: |
+        'laughing', 7, {'i': [1, 6], 'heard': [1], 'a': [1, 4], 'asked': [6]}
+      output: |
+        {'i': [1, 6], 'heard': [1], 'a': [1, 4], 'asked': [6], 'laughing': [7]}
+check_for_aspen:
+  working_description: Return "Yup" if "Aspen" is in trees, "Nope" otherwise.
+  signature: |
+    def check_for_aspen(trees):
+  code: |
+    def check_for_aspen(trees):
+      if "Aspen" in trees:
+        return "Yup"
+      return "Nope"
+  tests:
+    - input: |
+        {"Oak": 3, "Birch": 5, "Elm": 2}
+      output: |
+        "Nope"
+    - input: |
+        {"Aspen": 7, "Beech": 15}
+      output: |
+        "Yup"
+    - input: |
+        {"Beech": 8, "Maple": 2, "Aspen": 3}
+      output: |
+        "Yup"
+multisplit:
+  working_description: For each character in chars, replaces instances of the character in s with sep.
+  signature: |
+    def multisplit(s,chars,sep):
+  code: |
+    def multisplit(sentence,chars,sep):
+      for c in chars:
+        bits = sentence.split(c)
+        sentence = sep.join(bits)
+      return sentence
+  tests:
+    - input: |
+        "a man! wow- the dog, much hat! much hair!",['-','!','?',','],'~'
+      output: |
+        'a man~ wow~ the dog~ much hat~ much hair~'
+    - input: |
+        'celestial teas: a guide',[' ',':'],'!'
+      output: |
+        'celestial!teas!!a!guide'
+    - input: |
+        'celestial teas: a guide',[],'!'
+      output: |
+        'celestial teas: a guide'
+sortedBooks:
+  working_description: |
+    Remove all the dictionaries that don't have 'writer' value of author. Sort the list by 'year' value.
+  signature: |
+    def sortedBooks(books, writer):
+  code: |
+    def sortedBooks(books, writer):
+      result = []
+      for book in books:
+        if book['author'] == writer:
+          result.append(book)
+      return sorted(result, key = lambda d: d['year'])
+  tests:
+    - input: |
+        [{'author': 'Austen', 'book': 'Emma', 'year': 1815},
+        {'author': 'Austen', 'book': 'Persuasion', 'year': 1818}, 
+        {'author': 'Woolf', 'book': 'The Voyage Out', 'year': 1915}, 
+        {'author': 'Austen', 'book': 'Pride and Prejudice', 'year': 1813}], 
+        'Austen'
+      output: |
+        [{'author': 'Austen', 'book': 'Pride and Prejudice', 'year': 1813},
+        {'author': 'Austen', 'book': 'Emma', 'year': 1815}, 
+        {'author': 'Austen', 'book': 'Persuasion', 'year': 1818}]
+    - input: |
+        [{'author': 'Woolf', 'book': 'The Voyage Out', 'year': 1915},
+          {'author': 'Austen', 'book': 'Persuasion', 'year': 1818}], 
+          'Woolf'
+      output: |
+        [{'author': 'Woolf', 'book': 'The Voyage Out', 'year': 1915}]
+    - input: |
+        [{'author': 'Woolf', 'book': 'The Voyage Out', 'year': 1915}],
+          'Austen'
+      output: |
+        []
+sortBySuccessRate:
+  working_description: |
+    For each nomination in nominations, add a key 'success' whose value is 'wins'/'noms' rounded to 2 decimal places. Return a list of dictionaries sorted descending by success.
+  signature: |
+    def sortBySuccessRate(nominations):
+  code: |
+    def bySuccessRate(artistDct):
+      return artistDct['success']
+
+    def sortBySuccessRate(artists):
+      for artistDct in artists:
+        artistDct['success']= round(artistDct['wins'] / artistDct['noms'], 2)                                 
+      sortedArtists = sorted(artists, key=bySuccessRate, reverse=True)       
+      return sortedArtists
+  tests:
+    - input: |
+        [{'nominee': 'Jones', 'wins': 28, 'noms': 80}, 
+        {'nominee': 'Beyoncé',  'wins': 28, 'noms': 79}, 
+        {'nominee': 'Krauss',  'wins': 27, 'noms': 42}]
+      output: |
+        [{'nominee': 'Krauss', 'wins': 27, 'noms': 42, 'success': 0.64}, 
+        {'nominee': 'Jones', 'wins': 28, 'noms': 80, 'success': 0.35}, 
+        {'nominee': 'Beyoncé', 'wins': 28, 'noms': 79, 'success': 0.35}]
+    - input: |
+        [{'nominee': 'Babyface','wins': 11, 'noms': 49},
+        {'nominee': 'Swift', 'wins': 11, 'noms': 41}, 
+        {'nominee': 'Thomas', 'wins': 11, 'noms': 38}]
+      output: |
+        [{'nominee': 'Thomas', 'wins': 11, 'noms': 38, 'success': 0.29},
+        {'nominee': 'Swift', 'wins': 11, 'noms': 41, 'success': 0.27},
+        {'nominee': 'Babyface', 'wins': 11, 'noms': 49, 'success': 0.22}]
+    - input: |
+        [{'nominee': 'Beyoncé', 'wins': 28, 'noms': 79},
+         {'nominee': 'Babyface','wins': 11, 'noms': 49}]
+      output: |
+        [{'nominee': 'Beyoncé', 'wins': 28, 'noms': 79, 'success': 0.35}, 
+        {'nominee': 'Babyface', 'wins': 11, 'noms': 49, 'success': 0.22}]
+layoverTrips:
+  working_description: |
+    Given a list of dictionaries containing flight information and an origin airport, write a function that produces a list
+    of all destinations that can be reached with only 1 layover.
+    layoverTrips takes a list of dictionaries, where each dictionary contains information about a flight, and a string 
+    representing the origin city, and returns a sorted list of destinations.
+  signature: |
+    def layoverTrips(flights, start):
+  code: |
+    def layoverTrips(flights,start):
+      reachable = []
+      links = {}
+      all = []
+      for flight in flights:
+        if flight['origin'] == start:
+          reachable.append(flight['dest'])
+        if flight['origin'] in links:
+          links[flight['origin']].append(flight['dest'])
+        else:
+          links[flight['origin']] = [flight['dest']]
+      for stop in reachable:
+        if stop in links:
+          all += links[stop]
+      return sorted(all)
+  tests:
+    - input: |
+        [{'origin':'BOS', 'dest':'ORD', 'hrs':2.0}, 
+        {'origin':'BOS', 'dest':'JFK', 'hrs':1.0},
+        {'origin':'JFK', 'dest':'LAX', 'hrs':1.0},
+        {'origin':'LAX', 'dest':'SEA', 'hrs':1.0},
+        {'origin':'JFK', 'dest':'ATL', 'hrs':1.0}], 'BOS'
+      output: |
+        ['ATL','LAX']
+    - input: |
+        [{'origin':'BOS', 'dest':'ORD', 'hrs':2.0}, 
+        {'origin':'BOS', 'dest':'JFK', 'hrs':1.0},
+        {'origin':'ORD', 'dest':'SEA', 'hrs':1.0}], 'ORD'
+      output: |
+        []
+    - input: |
+        [{'origin':'LAX', 'dest':'SEA', 'hrs':1.0},
+         {'origin':'SEA', 'dest':'JFK', 'hrs':2.0},
+         {'origin':'SEA', 'dest':'ATL','hrs':1.0}], 'LAX'
+      output: |
+        ['ATL','JFK']
+sort_physicists:
+  working_description: |
+    Given a list of scientists, remove the lists that don't have 'Physics' as the third value. Sort the first value of the remaining lists by their second value.
+  signature: |
+    def sort_physicists(scientists):
+  code: |
+    def sort_physicists(scientists):
+      physicists = [(entry[1],entry[0]) for entry in scientists if entry[2] == "Physics"]
+      sorted_physicists = sorted(physicists)
+      return [entry[1] for entry in sorted_physicists]
+  tests:
+    - input: |
+        [["Youyou",91,"Chemistry"],["Ghez",56,"Physics"],["Peiris",48,"Physics"],["Strickland",62,"Physics"]]
+      output: |
+        ['Peiris', 'Ghez', 'Strickland']
+    - input: |
+        [["Ghez",56,"Physics"],["Peiris",48,"Physics"],["Strickland",62,"Physics"]]
+      output: |
+        ['Peiris', 'Ghez', 'Strickland']
+    - input: |
+        [["Taylor",59,"Computer Science"],["Tu",91,"Chemistry"],["Ghez",56,"Physics"]]
+      output: |
+        ['Ghez']
+find_multiples:
+  working_description: |
+    Write a function called find_multiples, which returns a list of all the multiples of a given factor 
+    between the given start and stop numbers, inclusive.
+  signature: |
+    def find_multiples(start,stop,factor):
+  code: |
+    def find_multiples(start,stop,factor):
+      multiples = []
+      for num in range(start, stop+1):
+        if num % factor == 0:
+          multiples.append(num)
+      return multiples
+  tests:
+    - input: |
+        1,100,20
+      output: |
+        [20, 40, 60, 80, 100]
+    - input: |
+        10, 30, 5
+      output: |
+        [10, 15, 20, 25, 30]
+    - input: |
+        1000,2000,177
+      output: |
+        [1062, 1239, 1416, 1593, 1770, 1947]
+total_bill:
+  working_description: |
+    Returns the sum of multiplying the second and third indices of each list in grocery_list, multiplied by 1 + sales_tax. Round to 2 digits.
+  signature: |
+    def total_bill(grocery_list, sales_tax):
+  code: |
+    def total_bill(grocery_list, sales_tax):
+      total = 0.0
+      for item in range(len(grocery_list)):
+        total += grocery_list[item][1] * grocery_list[item][2]
+
+      # add sales tax
+      total *= (1 + sales_tax)
+      return round(total, 2)
+  tests:
+    - input: |
+        [['apples', 6, 0.99],['milk', 1, 1.49],['bread', 2, 3.50]], 0.07
+      output: |
+        15.44
+    - input: |
+        [['apples', 6, 0.99],['milk', 1, 1.49],['bread', 2, 3.50]], 0.0
+      output: |
+        14.43
+    - input: |
+        [['bread', 2, 3.50]], 0.5
+      output: |
+        10.5
+translate:
+  working_description: |
+    Split sentence on space. For each word in sentence, concatenates its value in lexicon to the result. Concatenate UNK for words not in lexicon. Return a string.
+  signature: |
+    def translate(lexicon,sentence):
+  code: |
+    def translate(lexicon,sentence):
+      words = sentence.split()
+      translation = ""
+      for word in words:
+        if word in lexicon:
+          translation += lexicon[word]+" "
+        else:
+          translation += "UNK "
+      return translation.strip()
+  tests:
+    - input: |
+        {"one":"un", "two":"deux", "three":"trois", "four":"quatre",
+          "I":"je", "you":"tu", "and":"et", "cats":"chats", "love":"aime",
+          "like":"aime", "my":"mes"}, 
+          "I like my three cats"
+      output: |
+        'je aime mes trois chats'
+    - input: |
+        {"one":"un", "two":"deux", "three":"trois", "four":"quatre",
+          "I":"je", "you":"tu", "and":"et", "cats":"chats", "love":"aime",
+          "like":"aime", "my":"mes"}, 
+          "I like my three marmots"
+      output: |
+        'je aime mes trois UNK'
+    - input: |
+        {"one":"ett", "two":"tva", "three":"tre", "four":"fyra"},
+        "five six seven eight"
+      output: |
+        'UNK UNK UNK UNK'
+topScores:
+  working_description: |
+    Lst is a list of students, where the first value is their grade and the second value is their name. 
+    Remove all the students whose grade is less than 80, and return a list of names sorted by grades. Remove all except the first 5.
+  signature: |
+    def topScores(lst):
+  code: |
+    def topScores(lst):
+      activeUsers = []
+      for val in lst:
+          if val[0] >= 80: 
+              activeUsers.append(val)
+      ans = []
+      topOfClass = sorted(activeUsers)[-5:]
+      for stu in topOfClass:
+          ans.insert(0, stu[1])
+      return ans
+  tests:
+    - input: |
+        [[76, 'Matt'], [80, 'Rachel'], [100, 'Penelope'], [50, 'Pete'], [99, 'Alex']]
+      output: |
+        ['Penelope', 'Alex', 'Rachel']
+    - input: |
+        [[92, 'Kip'], [76, 'Matt'], [80, 'Sam'], [100, 'Ben'], [99, 'Alex'], [97, 'Ro'], [65, 'Hans'], [95, 'Ira']]
+      output: |
+        ['Ben', 'Alex', 'Ro', 'Ira', 'Kip']
+    - input: |
+        [[65, 'Bob'], [65, 'Rachel'], [33, 'Alex']]
+      output: |
+        []
+generateCardDeck:
+  working_description: |
+      Given a set of suits and values, make a deck by combining each suit with each value as a string. Return a list of 
+      all combinations in sorted order. 
+  signature: |
+    def generateCardDeck(suits, vals):
+  code: |
+    def generateCardDeck(suits, vals):
+      deck = []
+      for s in suits:
+          for v in vals:
+              deck.append(s+v)
+      return sorted(deck)
+  tests:
+    - input: |
+        ['S', 'H', 'D'], ['1', '2', 'A']
+      output: |
+        ['D1', 'D2', 'DA', 'H1', 'H2', 'HA',  'S1', 'S2', 'SA']
+    - input: |
+        ['H', 'D'], ['6', 'Q', 'J', '2']
+      output: |
+        ['D2', 'D6', 'DJ', 'DQ', 'H2','H6', 'HJ', 'HQ']
+    - input: |
+        ['H'], ['2']
+      output: |
+        ['H2']
+reverseWords:
+  working_description: |
+    Reverses each string in words, then returns a sorted list.
+  signature: |
+    def reverseWords(words):
+  code: |
+    def reverseWords(words):
+      rev = []
+      for w in words:
+          rev.append(w[::-1])
+      return sorted(rev)
+  tests:
+    - input: |
+        ['eat', 'tree']
+      output: |
+        ['eert', 'tae']
+    - input: |
+        ['ax', 'by', 'chaz']
+      output: |
+        ['xa', 'yb', 'zahc']
+    - input: |
+        ['by', 'chaz', 'ax']
+      output: |
+        ['xa', 'yb', 'zahc']
+percentWin:
+  working_description: |
+    Returns percentage of values in guess that match values in answers as a string with %, rounded to the nearest whole percent
+  signature: |
+    def percentWin(guess,answers):
+  code: |
+    def percentWin(guess,answers):
+      total = 0
+      for i in range(len(guess)):
+          if guess[i] == answers[i]:
+              total += 1
+      return str(round(total / len(guess) * 100)) + "%"
+  tests:
+    - input: |
+        ['1', '1', 'X', '2'], ['1', '1', '1', '2']
+      output: |
+        '75%'
+    - input: |
+        ['2', 'X', 'X'], ['2', '2', '2']
+      output: |
+        '33%'
+    - input: |
+        ['2', '1', '2', '1', '2'], ['2', '1', '2', '1', '2']
+      output: |
+        '100%'
+correctNumberofPlayers:
+  working_description: |
+    Returns true if there are 5 players in every list in teams, false otherwise
+  signature: |
+    def correctNumberofPlayers(teams):
+  code: |
+    def correctNumberofPlayers(teams):
+      total = 0
+      for elt in teams:
+        total += len(elt)
+      return total % 5 == 0
+  tests:
+    - input: |
+        [['Brian', "Ertz", "Long", "Mewis", "Press"], ['Falk', 'Glas', "Seger", "Hurtig", "Rolfo"]]
+      output: |
+        True
+    - input: |
+        [['Brian', "Ertz", "Long", "Mewis", "Press"], ['Falk', 'Glas', "Seger", "Hurtig"]]
+      output: |
+        False
+    - input: |
+        [['Brian',"Ertz","Long", "Mewis","Press"], ['Falk','Glas',"Seger","Hurtig","Rolfo"], ["Bartoli","Linari","Gama","Galli","Caruso"]]
+      output: |
+        True
+exp:
+  working_description: |
+    Given a list of integers list and a value val, return a new list where every element in the original list is raised to the power
+  signature: |
+    def exp(lst, val):
+  code: |
+    def exp(lst, val):
+      newLst = []
+      for x in lst:
+        newLst.append(x ** val)
+      return newLst
+  tests:
+    - input: |
+        [1, 2, 3], 1
+      output: |
+        [1,2,3]
+    - input: |
+        [2,2,2], 3
+      output: |
+        [8,8,8]
+    - input: |
+        [2], 2
+      output: |
+        [4]
+laugh:
+  working_description: |
+    - Build a list of of "a"s of length "size" to length "1".
+    - Prefix "h" to all items.
+    - Join the list with spaces.
+  signature: |
+    def laugh(size):
+  code: |
+    def laugh(size):
+     bigString = ""
+     for i in range(size, 0, -1):
+         bigString += "h" + "a"*i + " "
+     return bigString[:-1]
+  tests:
+    - input: |
+        4
+      output: |
+        "haaaa haaa haa ha"
+    - input: |
+        1
+      output: |
+        "ha"
+    - input: |
+        3
+      output: |
+        "haaa haa ha"
