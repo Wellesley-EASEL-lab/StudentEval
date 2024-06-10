@@ -1,0 +1,127 @@
+---
+title: "Charlie regression analysis"
+author: "Carolyn Jane Anderson"
+date: '2023-03-28'
+output:
+  pdf_document: default
+  html_document: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+library(stringr)
+library(lme4)
+library(lmerTest)
+```
+
+This notebook contains code for running regression models to explore the effect of prompt wording choices in the StudentEval dataset. It reads in pass\@1 rates and feature counts obtained using the token_to_feature.py script.
+
+```{r}
+data.raw = read.csv('../raw_data/interactions.csv',header=TRUE,stringsAsFactors=FALSE)
+
+data <- data.raw %>% mutate(success = ifelse(tests_passed==total_tests,1,0),
+                            firstAttempt = ifelse(first_attempt=="True",1,0),
+                            lastAttempt = ifelse(last_attempt=="True",1,0),
+                            group = ifelse(first_attempt=="True"&success==1,"SuccessFirst",ifelse(first_attempt=="True",
+                                           "UnsuccessFirst",
+                                           ifelse(last_attempt=="True"&success==1,
+                                                  "SuccessLast",
+                                                  ifelse(last_attempt=="True","UnsuccessLast","Middle")))))
+```
+
+```{r}
+exclude = read.csv('exclude.csv',header=TRUE,stringsAsFactors=FALSE) %>% mutate(joined = paste(problem,str_trim(text)))
+data.sub <- data %>% mutate(join_ed = paste(problem,str_trim(submitted_text)))
+remove <- subset(data.sub,join_ed %in% exclude$joined)
+cleaned <- subset(data.sub,!(join_ed %in% exclude$joined))
+```
+
+```{r}
+pass.raw = read.csv('../computed_data/allprompts_starcoderbase_pass1.csv',header=TRUE)
+pass <- subset(pass.raw,select=c("prompt","pass1"))
+data.all <- merge(cleaned,pass,by="prompt")
+```
+
+```{r}
+features.raw <- read.delim("tokenized_features.tsv",header=TRUE) %>% mutate(id = prompt)
+features.r <- subset(features.raw,select=-c(1))
+features <- merge(data.all,features.r,by="id")
+```
+
+```{r}
+charCount <- function(x,c){
+  counts <- unlist(map(x,function(y) str_count(tolower(y),"dict")/str_length(y)))
+  counts - mean(counts)/sd(counts)
+  }
+```
+
+```{r}
+data.all <- merge(cleaned,pass,by="prompt") %>% rowwise() %>% 
+  mutate(totalLength = str_length(submitted_text),
+         longestSentence = max(unlist(map(str_split(submitted_text,"\\."),str_length))),
+         sentCount = length(str_split(submitted_text,"\\.")[[1]]))
+```
+
+```{r}
+data.all %>% group_by(group) %>% summarize(a.totalLength = mean(totalLength),
+                                           a.longSentence = mean(longestSentence),
+                                           a.sentCount = mean(sentCount)
+                                                                      )
+```
+
+```{r}
+model <- lmer(pass1 ~ I(totalLength/100) * I(longestSentence/100) + (1+I(totalLength/100) + I(longestSentence/100)|problem),data=data.all,control=lmerControl(optimizer="bobyqa",optCtrl=list(maxfun=1e6)))
+```
+
+```{r}
+summary(model)
+```
+
+```{r}
+model <- lmer(pass1 ~ I(totalLength/100) + (1+I(totalLength/100)|problem),data=data.all,control=lmerControl(optimizer="bobyqa",optCtrl=list(maxfun=1e6)))
+```
+
+```{r}
+summary(model)
+```
+
+```{r}
+model <- lmer(pass1 ~ paramInd+functionnameInd+(1|problem),data=features,control=lmerControl(optimizer="bobyqa",optCtrl=list(maxfun=1e6)))
+```
+
+```{r}
+summary(model)
+```
+
+```{r}
+model <- lmer(pass1 ~ listInd+dictInd+squareBraceInd+curlyBraceInd+arrayInd+variableInd+numberInd+intInd + (1|problem),data=features,control=lmerControl(optimizer="bobyqa",optCtrl=list(maxfun=1e8)))
+```
+
+```{r}
+summary(model)
+```
+
+```{r}
+model <- lmer(pass1 ~ returnInd+inputInd+printInd+outputInd + (1|problem),data=features,control=lmerControl(optimizer="bobyqa",optCtrl=list(maxfun=1e6)))
+```
+
+```{r}
+summary(model)
+```
+
+```{r}
+model <- lmer(pass1 ~ exampleInd+consecutiveInd+representInd + (1|problem),data=features,control=lmerControl(optimizer="bobyqa",optCtrl=list(maxfun=1e6)))
+```
+
+```{r}
+summary(model)
+```
+
+```{r}
+model <- lmer(pass1 ~ elementInd+indexInd+keyInd + (1|problem),data=features,control=lmerControl(optimizer="bobyqa",optCtrl=list(maxfun=1e6)))
+```
+
+```{r}
+summary(model)
+```

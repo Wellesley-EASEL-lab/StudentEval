@@ -1,0 +1,77 @@
+problem,text
+topScores," takes a list of list, which contains a score and a name, and returns the name of the top score."
+topScores, Input of a nested list. Inner lists contain a string 'Name' and an integer. Outer is a list of all inner lists. Outputs and prints a list of each 'Name'. The order of the list is based on the number associated with each name in the inner list.
+topScores," ""produce all the strings within an array that contains 100, 99, 97, 95, 92 in order"""
+topScores, Return the strings from highest corresponding number to lowest.
+topScores," Iterates through a list of lists, with each list housing the age and name of a person respectively. A new list will be created sorting the people by their age, in reverse order. The returned list will only use only their names"
+sort_physicists, Sort the lists in scientists from least to greatest by the number in the list.
+sort_physicists," If position in scientists has ""Peiris"", add 'Peiris' to new list. If position in scientists has ""Ghez"", add 'Ghez' to new list. If position in scientists has ""Strickland"", add 'Strickland' to new list."
+print_time," Return the day of the week if the hour is not between 0 and 8. Else, return sleeping."
+changeSection," flip each letter in s, return the combination of each letter."
+changeSection," run a for loop through s, putting each letter into a list,"
+planets_mass," For this function given a dictionary, if the number of items in the dictionary is even calculate the difference between the mass of the first three planets, and if it is odd return the sum of the first two planets"
+fib, the code randomly assigns true or false to an number input
+order_strings, Reverse the order of every other item in a string starting at 0
+order_strings, Return elements of lst in randomized order.
+order_strings," If the item in lst contains 'b', move the item to the first item of lst; if the item in lst contains 'a', move the item to the second position of lst. Return lst."
+order_strings, takes in a list.
+order_strings, scramble the list
+order_strings, Takes a list. Moves the first item in the list to the end of the list. Returns the list
+order_strings, change the order of the element of the list
+order_strings, This function imports random and randomly changes the order of the given list.
+order_strings, maybe this is the impossible one. I don't know
+order_strings, Function takes a list as an input. Function would return a list with values in a different order.
+order_strings, I don't understand the pattern.
+sortBySuccessRate, takes a list of dictionaries as an input. returns a list of the dictionaries in reverse alphabetical order for the key 'nominee' in each dictionary
+sortBySuccessRate," def sortBySuccessRate(nominations): takes input
+[{'nominee': 'Jones', 'wins': 28, 'noms': 80},{'nominee': 'Beyoncé', 'wins': 28, 'noms': 79}, {'nominee': 'Krauss', 'wins': 27, 'noms': 42}] and prints output in order of least amount of 'wins', if the same prints based on least amount of 'noms',"
+reverseWords," Write a code that takes one parameter. The parameter is words, which represents a list of strings that has words. The code should return a list of string that reverse each string of words in the parameter."
+reverseWords, Reverse the characters in each string in the list. return the list in reverse order
+reverseWords, In this function your goal is given a list of strings to reverse the strings and reverse the order of the strings in the way that they appeared in the provided list.
+reverseWords," Takes a list of strings, which we will call words. Make a new list of strings, which we will call reverse. For each string in words, add a string to reverse that contains the same characters in backwards order. Output is reverse."
+reverseWords," starting from the last index of the list word, return a new list with the word from the previous list spelled backwards"
+reverseWords," Reverses the order of the words in the list ""words"". For each word in the list, 
+reverses the order of the letters. Returns a list."
+reverseWords," The function takes in a list of strings, it will switch the position of the first and last string. Then it will make all the character within the strings reverse."
+reverseWords," ""reverse the order of the items in words, and reverse each string"""
+reverseWords," taken words, loop through and reverse its order."
+reverseWords," Takes a list of strings, reverses the order of the list, and then individually reverses the order of the characters in each string. Then, returns this modified list."
+readingIceCream, Counts the number of letters in the word before the first  and multiplies that value by the number after t and returns that product.
+readingIceCream," iterates through the values in a list, splices  in the values and takes the 3rd value and appends it to a new list. from the new list, every value after the 1st is returned"
+laugh, return the number of words in a string
+laugh," the code increases the number of the letters in ""ha,"" depending on the input in an increasing factorial way"
+times_with," def times_with(meetings): takes the input [ [30, ['Alice', 'Bob', 'Carol']] ] and produces and output of val[1,2,3]:val1"
+times_with," The function takes in some number of lists that each consist of an integer and another list of strings ""names"". For each list, the function takes each string in ""names"" and adds a colon followed by the integer in that list."
+sortedBooks, Returns the information of the specified writer.
+sortedBooks," Returns the list with the a Sort the elements of the array by the year value in its dictionary, from lowest to highest. Then removes the last element in the array and returns the rest"
+exp," For this function, exp(1st, val) the goal is to multiply each number within the provided list (1st) by the number given in val and then return a list of the products of the original list."
+exp, The function multiplies each item in the list by the number outside it.
+exp," ""for all the value in 1st, multiply them by val"""
+exp," For each element in lst, this function multiplies it by val and returns the resulting list"
+exp, A function that takes in lists of numbers and only outputs the innermost list.
+partialWordle, Iterates through a guess list 0 1 2 3...1 letter in the right place 4... 2 letters in the right place 6 ... 3 letters in the right place
+partialWordle," The function takes in a list, guessList, and string, hiddenWord. It will then go through every string within the list and compare it to the hiddenWord. For each letter that matches you add the integer associated with its place in the alphabet to list of numbers, then output the list."
+partialWordle, Two inputs: list of 4 character string (These are the guess words) and a four character long string (the hidden word). Function checks if each of the characters in each of the words in the inputted string matches with the characters in each corresponding position of the hidden word. Returns a list of numbers that signify the number of characters that are co
+partialWordle," if input word is part of the english language, output a number"
+partialWordle," The function takes in two parameters, the first is guessList which is a list of string that represents words to guess. The second parameter, hiddenWord is the actual word but it is hidden from the user. The output is a list of integers representing how many characters are guessed correctly from the hiddenWord."
+partialWordle," ""produce the number of characters in hiddenWord appeared in guessList for each item in guessList"""
+partialWordle," Write a function that gets a list of strings and the hidden word (a string separated by a comma). From the list of strings, compare each letter from the strings in the list with the hidden words and return a list with the number of how many similar letters both strings share."
+partialWordle," Your goal for this function, is when given a lost of strings and a hidden word is to return the how many letters match the hidden word"
+partialWordle, takes a list of words and one word and returns the number of times the a word in the list of words matches with the one word.
+partialWordle," if characters in the string are equal to characters to an item in the list, increase the value of the integer by 1"
+partialWordle, The function shows how many characters each string within the list has in common with the string outside the list.
+layoverTrips, This function prints the final dest
+layoverTrips," given a list of dictionaries, and a string the expected output should be a list of strings that contain the value of"
+layoverTrips, Read t
+layoverTrips, find your two favorite airports from an input. put them in a list!
+subtract_add," Turns all the elements in lst into integers, then finds the sum of all the elements in the list excluding the last one. Then it subtracts the last element from the sum. If the list is empty, it returns 0"
+subtract_add," subtracts the first and second integers in the list and returns the final integer, with an empty list, 0 is returned"
+subtract_add, Take the first two items in the array list and change them into integers then take the proceeding two integers and subtract them at the two sums return the product. if there are just two items in the list subtract the second one from the first one and return the product. if there are no items then return zero
+findHorizontals," Scan each entry for the first complete word, then return that word and it's index"
+findHorizontals," compares first list to second list and counts if the first list's values' letters match a value in the second list. If they match perfectly, returns 3 as a count returns dictionary with keys as the second list, and values as the counts"
+findHorizontals," count how many elements in first list include characters from each element in second list. If more than 0 and in the same order as the element in second list, add to dictionary with count as value. If not in the same order, add 0 as value"
+findHorizontals," Returns a list of dictionaries, where the name of the dictionary is the word that repeats in the second input list. Each dictionary contains a number."
+findHorizontals, Given two lists
+add_up," Add together each number in the list. If there is a string, and the word inside is a number in written form, add that number too."
+add_word, Count the number of unique strings in a set and return each unique string
+check_for_aspen," Given a dictionary with values, if the total of the values when added together is greater than 10 return Nope, otherwise return Yup"

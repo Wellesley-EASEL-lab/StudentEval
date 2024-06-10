@@ -1,0 +1,87 @@
+---
+title: "Charlie regression analysis"
+author: "Carolyn Jane Anderson"
+date: '2023-03-28'
+output:
+  pdf_document: default
+  html_document: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+library(stringr)
+library(lme4)
+library(lmerTest)
+```
+
+This notebook contains code for generating figures using the StudentEval dataset.
+
+```{r}
+data.raw = read.csv('../raw_data/interactions.csv',header=TRUE,stringsAsFactors=FALSE)
+
+data <- data.raw %>% mutate(success = ifelse(tests_passed==total_tests,1,0),
+                            firstAttempt = ifelse(first_attempt=="True",1,0),
+                            lastAttempt = ifelse(last_attempt=="True",1,0),
+                            group = ifelse(first_attempt=="True"&success==1,"SuccessFirst",ifelse(first_attempt=="True",
+                                           "UnsuccessFirst",
+                                           ifelse(last_attempt=="True"&success==1,
+                                                  "SuccessLast",
+                                                  ifelse(last_attempt=="True","UnsuccessLast","Middle")))))
+```
+
+```{r}
+exclude = read.csv('exclude.csv',header=TRUE,stringsAsFactors=FALSE) %>% mutate(joined = paste(problem,str_trim(text)))
+data.sub <- data %>% mutate(join_ed = paste(problem,str_trim(submitted_text)))
+remove <- subset(data.sub,join_ed %in% exclude$joined)
+cleaned <- subset(data.sub,!(join_ed %in% exclude$joined))
+```
+
+```{r}
+pass.raw = read.csv('../computed_data/allprompts_starcoderbase_pass1.csv',header=TRUE)
+pass <- subset(pass.raw,select=c("prompt","pass1"))
+data.all <- merge(cleaned,pass,by="prompt")
+```
+
+```{r}
+group_order <- c("Middle","UnsuccessLast","SuccessLast","UnsuccessFirst","SuccessFirst")
+
+data.all$group <- factor(data.all$group,levels = group_order)
+
+first_labs <- c(`False` = "First",`True` = "Middle/Last")
+```
+
+```{r}
+ggplot(data=data.all,aes(x=problem)) + geom_histogram(stat="count") + theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1)) + xlab("Problem") + ylab("Number of submissions")
+
+```
+
+```{r}
+ggplot(data=data.all,aes(x=problem,fill=first_attempt)) + geom_histogram(stat="count") + theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1)) + xlab("Problem") + ylab("Number of submissions") + scale_fill_manual(name="Attempt",values=c("#DC267F", "#56B4E9"),labels=first_labs)
+ggsave("n_subs.pdf")
+```
+
+```{r}
+counts <- data %>% group_by(problem) %>% summarize(countP = n())
+succCounts <- subset(data,group=="SuccessFirst"|group=="SuccessLast") %>% group_by(problem) %>% summarize(countP = n())
+names(counts)[names(counts) == 'problem'] <- 'p'
+```
+
+```{r}
+ggplot(data=data.all,aes(x=problem,fill=group)) + geom_histogram(stat="count",position="dodge") + theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1)) + xlab("Problem") + ylab("Number of submissions")
+
+```
+
+```{r}
+data <- data %>% rowwise() %>% mutate(countSub = subset(counts,p==problem)$countP)
+data$problem <- reorder(data$problem,data$countSub)
+ggplot(data=data,aes(x=problem,fill=group)) + geom_histogram(stat="count") + xlab("Problem") + ylab("Number of submissions") + scale_fill_manual(name = "Success and Order",values=c("#DC267F", "#FFB000","yellow","#0072B2","#56B4E9")) + theme(text=element_text(size=32),axis.text.x = element_blank(),axis.ticks.x = element_blank(),legend.position="bottom",legend.box = "horizontal") + scale_y_continuous(expand = c(0,0),limits=c(0,100)) + guides(fill=guide_legend(nrow=2,byrow=TRUE))
+ggsave("n_subs_by_group.pdf",height=10,width=14)
+```
+
+```{r}
+part.means <- data.all %>% group_by(username) %>% summarize(partMean = round(mean(pass1), digits = 2))
+ggplot(data=part.means,aes(x=partMean)) + geom_histogram(stat="count", colour="black", fill="white")+
+ geom_density(alpha=.2, fill="#FF6666") + xlab("Mean pass@1 rate") + ylab("Number of participants")
+ggsave("participant_success.pdf")
+```
